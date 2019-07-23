@@ -1,0 +1,17 @@
+version : '3'
+services :
+  redis :
+    build : ./redis
+    container_name : dll-redis-master
+    ports :
+    - "6379:6379" # 如不需外网访问容器里面的服务 设置ip地址为127.0.0.1即可
+    environment :
+    - appendonly=yes # 打开redis密码设置
+    - requirepass=123456 # 设置redis密码
+    volumes:
+    - $PWD/redis/log/:/var/log/redis/:rw
+    - $PWD/redis/data:/data:rw # redis数据文件
+    networks:
+    - redis-net
+networks: # 创建网络
+  redis-net:
